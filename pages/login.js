@@ -2,7 +2,7 @@ import { auth, provider } from "../firebase";
 
 function Login() {
   const signInWithGoogle = () => {
-    auth.signInWithRedirect(provider);
+    auth.signInWithPopup(provider);
   };
 
   return (
