@@ -19,7 +19,9 @@ function Chat() {
   const user = auth.currentUser;
 
   const messagesCollection = db.collection("messages");
-  const messagesDocuments = messagesCollection.orderBy("createdAt").limit(25);
+  const messagesDocuments = messagesCollection
+    .orderBy("createdAt", "desc")
+    .limit(25);
   const [messagesSnapshot] = useCollectionData(messagesDocuments, {
     idField: "id",
   });
@@ -71,9 +73,9 @@ function Chat() {
       {/* Chat Area */}
       <div className="flex-1 max-h-fit p-4 overflow-scroll">
         {messagesSnapshot &&
-          messagesSnapshot.map((message) => (
-            <Message key={message.id} message={message} />
-          ))}
+          messagesSnapshot
+            .reverse()
+            .map((message) => <Message key={message.id} message={message} />)}
         <div ref={scroller} className="h-10"></div>
       </div>
       {/* Input Area */}
