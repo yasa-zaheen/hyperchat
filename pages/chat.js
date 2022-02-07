@@ -13,7 +13,7 @@ import IconButton from "../components/IconButton";
 // Heroicons
 import { ArrowCircleUpIcon, LogoutIcon } from "@heroicons/react/outline";
 
-function chat() {
+function Chat() {
   const [formValue, setFormValue] = useState("");
 
   const user = auth.currentUser;
@@ -57,7 +57,7 @@ function chat() {
   return (
     <div className="h-screen w-full relative flex flex-col">
       <div className="h-fit flex justify-center items-center overflow-hidden p-4 relative border-b-2 border-neutral-50">
-        <p className="text-2xl font-semibold">hyperchat.</p>
+        <p className="text-2xl font-semibold">hyperC.</p>
         {/* Header */}
         <button
           onClick={signOut}
@@ -99,4 +99,4 @@ function chat() {
   );
 }
 
-export default chat;
+export default Chat;
