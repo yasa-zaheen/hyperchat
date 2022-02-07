@@ -30,18 +30,20 @@ function Chat() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = user;
+    if (formValue != "") {
+      const { uid, photoURL } = user;
 
-    await messagesCollection.add({
-      username: user.displayName,
-      text: formValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid: uid,
-      photoURL: photoURL,
-    });
+      await messagesCollection.add({
+        username: user.displayName,
+        text: formValue,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        uid: uid,
+        photoURL: photoURL,
+      });
 
-    setFormValue("");
-    scroller.current.scrollIntoView({ behavior: "smooth" });
+      setFormValue("");
+      scroller.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const signOut = () => {
