@@ -36,7 +36,10 @@ function Chat() {
   const scroller = useRef();
 
   useEffect(() => {
-    scroller.current.scrollIntoView({ behavior: "smooth" });
+    if (firstLoad.current) {
+      firstLoad.current = false;
+      scroller.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, []);
 
   const sendMessage = async (e) => {
@@ -54,8 +57,9 @@ function Chat() {
       });
 
       setFormValue("");
-      scroller.current.scrollIntoView({ behavior: "smooth" });
     }
+
+    scroller.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const signOut = () => {
