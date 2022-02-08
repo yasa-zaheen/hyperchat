@@ -18,7 +18,7 @@ function Message(props) {
               <div className="overflow-hidden h-12 w-12 rounded-full relative">
                 <Image src={photoURL} layout="fill" objectFit="cover" />
               </div>
-              <p className="mr-2 bg-[#007aff] text-white p-4 rounded-2xl rounded-br-none">
+              <p className="h-fit flex-1 mr-2 bg-[#007aff] text-white p-4 rounded-2xl rounded-br-none">
                 {text}
               </p>
             </div>
@@ -34,7 +34,7 @@ function Message(props) {
               <div className="overflow-hidden h-12 w-12 rounded-full relative">
                 <Image src={photoURL} layout="fill" objectFit="cover" />
               </div>
-              <p className="ml-2 bg-neutral-100 text-black p-4 rounded-2xl rounded-bl-none">
+              <p className="h-fit flex-1 ml-2 bg-neutral-100 text-black p-4 rounded-2xl rounded-bl-none">
                 {text}
               </p>
             </div>
