@@ -8,10 +8,18 @@ function UserCard({ user }) {
     const currentTime = dateObject;
     const timeDelta = userLastSeen - currentTime;
 
-    if (timeDelta < -60000) {
-      return "Inactive";
+    if (timeDelta < -150000) {
+      return (
+        <p className="text-xs font-light border-2 border-neutral-800 text-white rounded-md w-fit px-2 py-1">
+          Inactive
+        </p>
+      );
     } else {
-      return "Active";
+      return (
+        <p className="text-xs font-light border-2 border-[#32c7592f] text-[#32c759] rounded-md w-fit px-2 py-1">
+          Active
+        </p>
+      );
     }
   };
 
@@ -22,7 +30,7 @@ function UserCard({ user }) {
       </div>
       <div className="ml-4">
         <p className="text-md">{user.username}</p>
-        <p className="text-xs font-thin ">{activeStatus(user)}</p>
+        {activeStatus(user)}
       </div>
     </div>
   );
