@@ -8,7 +8,7 @@ function UserCard({ user }) {
     const currentTime = dateObject;
     const timeDelta = userLastSeen - currentTime;
 
-    if (timeDelta > 60000) {
+    if (timeDelta < -60000) {
       return "Inactive";
     } else {
       return "Active";
