@@ -65,7 +65,7 @@ function Chat() {
 
   return (
     <div className="h-screen w-full relative flex flex-col">
-      <div className="h-fit w-full bg-white z-50 flex justify-center items-center overflow-hidden p-4 absolute border-b-2 border-neutral-50">
+      <div className="h-fit w-full bg-white z-50 flex justify-center items-center overflow-hidden p-4 relative border-b-2 border-neutral-50">
         <p className="text-2xl font-semibold">hyperchat.</p>
         {/* Header */}
         <button
