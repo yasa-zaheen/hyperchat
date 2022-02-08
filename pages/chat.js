@@ -93,6 +93,7 @@ function Chat() {
           onChange={(e) => {
             setFormValue(e.target.value);
           }}
+          maxLength="255"
           placeholder="Message"
           className="flex-1 bg-neutral-50 px-4 py-2 outline-none rounded-lg"
         />
