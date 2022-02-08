@@ -18,6 +18,7 @@ import IconButton from "../components/IconButton";
 import {
   ArrowCircleUpIcon,
   LogoutIcon,
+  MenuIcon,
   MoonIcon,
   SunIcon,
 } from "@heroicons/react/outline";
@@ -43,7 +44,7 @@ function Chat() {
           onClick={() => {
             setTheme("dark");
           }}
-          className="absolute left-4 bg-black text-white font-semibold text-sm p-2 rounded-full flex justify-center items-center"
+          className="absolute left-16 md:left-4 bg-black text-white font-semibold text-sm p-2 rounded-full flex justify-center items-center"
         >
           <MoonIcon className="h-5 w-5" />
         </button>
@@ -54,7 +55,7 @@ function Chat() {
           onClick={() => {
             setTheme("light");
           }}
-          className="absolute left-4 bg-white text-black font-semibold text-sm p-2 rounded-full flex justify-center items-center"
+          className="absolute left-16 md:left-4 bg-white text-black font-semibold text-sm p-2 rounded-full flex justify-center items-center"
         >
           <SunIcon className="h-5 w-5" />
         </button>
@@ -122,14 +123,33 @@ function Chat() {
       });
   };
 
+  const activityBar = useRef();
+
+  const showActivityBar = () => {
+    if (activityBar.current.classList.contains("-translate-x-full")) {
+      activityBar.current.classList.remove("-translate-x-full");
+    } else {
+      activityBar.current.classList.add("-translate-x-full");
+    }
+  };
+
   return (
-    <div className="h-screen w-full relative flex overflow-hidden">
-      <div className="hidden md:block w-1/3 p-4 overflow-y-scroll">
+    <div className="h-screen w-full relative flex sm:overflow-hidden">
+      <div
+        ref={activityBar}
+        className="-translate-x-full duration-200 ease-in-out absolute bg-white dark:bg-black md:translate-x-0 md:relative z-50 mt-16 sm:m-0 w-full md:block md:w-1/3 p-4 overflow-y-scroll"
+      >
         {usersSnapshot &&
           usersSnapshot.map((user) => <UserCard key={user.uid} user={user} />)}
       </div>
       <div className="h-screen w-full relative flex flex-col">
         <div className="h-fit w-full bg-white dark:bg-black z-50 flex justify-center items-center overflow-hidden p-4 relative border-b-2 border-neutral-50 dark:border-neutral-800">
+          <button
+            onClick={showActivityBar}
+            className="md:hidden absolute left-4 bg-white text-black font-semibold text-sm p-2 rounded-full flex justify-center items-center"
+          >
+            <MenuIcon className="h-5 w-5" />
+          </button>
           {renderThemeChanger()}
           <p className="text-2xl font-semibold">hyperchat.</p>
           {/* Header */}

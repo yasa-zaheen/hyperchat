@@ -10,7 +10,7 @@ function UserCard({ user }) {
 
     if (timeDelta < -150000) {
       return (
-        <p className="text-xs font-light border-2 border-neutral-800 text-white rounded-md w-fit px-2 py-1">
+        <p className="text-xs font-light border-2 border-neutral-100 dark:border-neutral-800 text-neutral-800 dark:text-white rounded-md w-fit px-2 py-1">
           Inactive
         </p>
       );
