@@ -56,14 +56,14 @@ function Message(props) {
               <div className="overflow-hidden h-12 w-12 rounded-full relative">
                 <Image src={photoURL} layout="fill" objectFit="cover" />
               </div>
-              <p className="h-fit flex-1 mr-2 bg-[#007aff] text-white p-4 rounded-2xl rounded-br-none">
+              <p className="h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white p-4 rounded-2xl rounded-br-none">
                 {text}
               </p>
               {/* Action center */}
               <div className="relative">
                 <div
                   ref={actionCenter}
-                  className="duration-200 ease-in-out scale-0 bg-white right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
+                  className="duration-200 ease-in-out scale-0 bg-white dark:bg-neutral-900 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
                 >
                   <IconButton
                     Icon={TrashIcon}
@@ -74,7 +74,7 @@ function Message(props) {
                 <IconButton
                   Icon={DotsHorizontalIcon}
                   onClick={showActionCenter}
-                  className="mr-2 bg-neutral-50 h-10 w-10 p-2 text-neutral-500"
+                  className="mr-2 bg-neutral-50 h-10 w-10 p-2 text-neutral-500 dark:bg-neutral-800"
                 />
               </div>
             </div>
@@ -93,7 +93,7 @@ function Message(props) {
               <div className="overflow-hidden h-12 w-12 rounded-full relative">
                 <Image src={photoURL} layout="fill" objectFit="cover" />
               </div>
-              <p className="h-fit ml-2 bg-neutral-50 text-black p-4 rounded-2xl rounded-bl-none">
+              <p className="h-fit ml-2 bg-neutral-50 dark:bg-neutral-800 dark:text-white text-black p-4 rounded-2xl rounded-bl-none">
                 {text}
               </p>
               {/* Action center */}

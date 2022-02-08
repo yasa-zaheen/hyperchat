@@ -1,5 +1,8 @@
 // React
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+
+// Next
+import { useTheme } from "next-themes";
 
 // Firebase
 import firebase from "firebase";
@@ -11,9 +14,54 @@ import Message from "../components/Message";
 import IconButton from "../components/IconButton";
 
 // Heroicons
-import { ArrowCircleUpIcon, LogoutIcon } from "@heroicons/react/outline";
+import {
+  ArrowCircleUpIcon,
+  LogoutIcon,
+  MoonIcon,
+  SunIcon,
+} from "@heroicons/react/outline";
 
 function Chat() {
+  const { systemTheme, theme, setTheme } = useTheme();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const renderThemeChanger = () => {
+    if (!mounted) return null;
+
+    const currentTheme = theme === "system" ? systemTheme : theme;
+
+    if (currentTheme === "light") {
+      return (
+        <button
+          onClick={() => {
+            setTheme("dark");
+          }}
+          className="absolute left-4 bg-black text-white font-semibold text-sm py-2 px-4 rounded-lg flex justify-center items-center"
+        >
+          <MoonIcon className="h-5 w-5 mr-2" />
+          dark mode
+        </button>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => {
+            setTheme("light");
+          }}
+          className="absolute left-4 bg-white text-black font-semibold text-sm py-2 px-4 rounded-lg flex justify-center items-center"
+        >
+          <SunIcon className="h-5 w-5 mr-2" />
+          light mode
+        </button>
+      );
+    }
+  };
+
   const [formValue, setFormValue] = useState("");
 
   const user = auth.currentUser;
@@ -62,12 +110,13 @@ function Chat() {
 
   return (
     <div className="h-screen w-full relative flex flex-col">
-      <div className="h-fit w-full bg-white z-50 flex justify-center items-center overflow-hidden p-4 relative border-b-2 border-neutral-50">
+      <div className="h-fit w-full bg-white dark:bg-black z-50 flex justify-center items-center overflow-hidden p-4 relative border-b-2 border-neutral-50 dark:border-neutral-800">
+        {renderThemeChanger()}
         <p className="text-2xl font-semibold">hyperchat.</p>
         {/* Header */}
         <button
           onClick={signOut}
-          className="absolute right-4 bg-[#007aff] text-white font-semibold text-sm py-2 px-4 rounded-lg flex justify-center items-center"
+          className="absolute right-4 bg-[#007aff] dark:bg-[#ff2d55] text-white font-semibold text-sm py-2 px-4 rounded-lg flex justify-center items-center"
         >
           <LogoutIcon className="h-5 w-5 mr-2" />
           logout
@@ -85,7 +134,7 @@ function Chat() {
       {/* Input Area */}
       <form
         onSubmit={sendMessage}
-        className="w-full flex items-center p-4 border-t-2 border-neutral-50"
+        className="w-full flex items-center p-4 border-t-2 border-neutral-50 dark:border-neutral-800"
       >
         <input
           type="text"
@@ -95,11 +144,11 @@ function Chat() {
           }}
           maxLength="255"
           placeholder="Message"
-          className="flex-1 bg-neutral-50 px-4 py-2 outline-none rounded-lg"
+          className="flex-1 bg-neutral-50 px-4 py-2 outline-none rounded-lg dark:bg-neutral-800"
         />
         <IconButton
           Icon={ArrowCircleUpIcon}
-          className="bg-[#007aff] text-white ml-4 h-10 w-10 p-2"
+          className="bg-[#007aff] dark:bg-[#ff2d55] text-white ml-4 h-10 w-10 p-2"
         />
       </form>
     </div>

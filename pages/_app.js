@@ -1,5 +1,6 @@
 // NEXT JS
 import "../styles/globals.css";
+import { ThemeProvider } from "next-themes";
 
 // Firebase
 import { auth } from "../firebase";
@@ -13,7 +14,12 @@ import Loading from "./Loading";
 function MyApp({ Component, pageProps }) {
   const [user, loading, error] = useAuthState(auth);
 
-  if (user) return <Chat />;
+  if (user)
+    return (
+      <ThemeProvider enableSystem={true} attribute="class">
+        <Chat />
+      </ThemeProvider>
+    );
 
   if (loading) return <Loading />;
 
