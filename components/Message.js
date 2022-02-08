@@ -16,13 +16,19 @@ function Message(props) {
     }
   ).format(
     dateTimeObject.getMonth()
-  )} ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${dateTimeObject.getMinutes()}`;
+  )} ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${
+    dateTimeObject.getMinutes() < 10
+      ? `0${dateTimeObject.getMinutes()}`
+      : dateTimeObject.getMinutes()
+  }`;
 
   const showMessage = () => {
     if (uid == auth.currentUser.uid) {
       return (
         <div className="w-full flex flex-col items-end mb-8">
-          <p className="mr-14 text-xs mb-2 opacity-50">{username}</p>
+          <p className="mr-14 text-xs font-medium mb-2 opacity-50">
+            {username}
+          </p>
           <div className="flex w-full justify-end">
             <div className="w-fit flex flex-row-reverse items-center">
               <div className="overflow-hidden h-12 w-12 rounded-full relative">
@@ -39,7 +45,9 @@ function Message(props) {
     } else {
       return (
         <div className="w-full flex flex-col items-start mb-8">
-          <p className="ml-14 text-xs mb-2 opacity-50">{username}</p>
+          <p className="ml-14 text-xs font-medium mb-2 opacity-50">
+            {username}
+          </p>
           <div className="flex w-full items-start">
             <div className="w-fit flex flex-row items-center">
               <div className="overflow-hidden h-12 w-12 rounded-full relative">
