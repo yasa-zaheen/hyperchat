@@ -41,10 +41,9 @@ function Chat() {
           onClick={() => {
             setTheme("dark");
           }}
-          className="absolute left-4 bg-black text-white font-semibold text-sm py-2 px-4 rounded-lg flex justify-center items-center"
+          className="absolute left-4 bg-black text-white font-semibold text-sm p-2 rounded-full flex justify-center items-center"
         >
-          <MoonIcon className="h-5 w-5 mr-2" />
-          dark mode
+          <MoonIcon className="h-5 w-5" />
         </button>
       );
     } else {
@@ -53,10 +52,9 @@ function Chat() {
           onClick={() => {
             setTheme("light");
           }}
-          className="absolute left-4 bg-white text-black font-semibold text-sm py-2 px-4 rounded-lg flex justify-center items-center"
+          className="absolute left-4 bg-white text-black font-semibold text-sm p-2 rounded-full flex justify-center items-center"
         >
-          <SunIcon className="h-5 w-5 mr-2" />
-          light mode
+          <SunIcon className="h-5 w-5" />
         </button>
       );
     }

@@ -21,7 +21,12 @@ function MyApp({ Component, pageProps }) {
       </ThemeProvider>
     );
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <ThemeProvider enableSystem={true} attribute="class">
+        <Loading />
+      </ThemeProvider>
+    );
 
   if (!user) return <Login />;
 
