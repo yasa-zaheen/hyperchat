@@ -76,7 +76,7 @@ function Chat() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 max-h-fit p-4 overflow-scroll">
+      <div className="flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden">
         {messagesSnapshot &&
           messagesSnapshot.map((message) => (
             <Message key={message.id} message={message} />
