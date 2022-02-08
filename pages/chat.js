@@ -76,11 +76,11 @@ function Chat() {
 
       {/* Chat Area */}
       <div className="flex flex-col-reverse flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden">
+        <div ref={scroller}></div>
         {messagesSnapshot &&
           messagesSnapshot.map((message) => (
             <Message key={message.id} message={message} />
           ))}
-        <div ref={scroller}></div>
       </div>
       {/* Input Area */}
       <form
