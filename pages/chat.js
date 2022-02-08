@@ -134,10 +134,10 @@ function Chat() {
   };
 
   return (
-    <div className="h-screen w-full relative flex sm:overflow-hidden">
+    <div className="h-screen w-full relative flex overflow-hidden">
       <div
         ref={activityBar}
-        className="-translate-x-full duration-200 ease-in-out absolute bg-white dark:bg-black md:translate-x-0 md:relative z-50 mt-16 sm:m-0 w-full md:block md:w-1/3 p-4 overflow-y-scroll"
+        className="h-screen -translate-x-full duration-200 ease-in-out absolute bg-white dark:bg-black md:translate-x-0 md:relative z-50 mt-16 sm:m-0 w-full md:block md:w-1/3 p-4 overflow-y-scroll"
       >
         {usersSnapshot &&
           usersSnapshot.map((user) => <UserCard key={user.uid} user={user} />)}
