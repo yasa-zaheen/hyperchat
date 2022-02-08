@@ -63,7 +63,7 @@ function Chat() {
 
   return (
     <div className="h-screen w-full relative flex flex-col">
-      <div className="h-fit flex justify-center items-center overflow-hidden p-4 relative border-b-2 border-neutral-50">
+      <div className="h-fit w-full bg-white z-50 flex justify-center items-center overflow-hidden p-4 absolute border-b-2 border-neutral-50">
         <p className="text-2xl font-semibold">hyperchat.</p>
         {/* Header */}
         <button
@@ -81,12 +81,12 @@ function Chat() {
           messagesSnapshot.map((message) => (
             <Message key={message.id} message={message} />
           ))}
-        <div ref={scroller} className="h-10"></div>
+        <div ref={scroller}></div>
       </div>
       {/* Input Area */}
       <form
         onSubmit={sendMessage}
-        className="w-full absolute flex items-center bottom-0 p-4 border-t-2 border-neutral-50 bg-white"
+        className="w-full flex items-center p-4 border-t-2 border-neutral-50"
       >
         <input
           type="text"
