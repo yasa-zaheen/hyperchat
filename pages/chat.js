@@ -14,6 +14,8 @@ import IconButton from "../components/IconButton";
 import { ArrowCircleUpIcon, LogoutIcon } from "@heroicons/react/outline";
 
 function Chat() {
+  const firstLoad = useRef(true);
+
   const [formValue, setFormValue] = useState("");
 
   const user = auth.currentUser;
@@ -32,6 +34,10 @@ function Chat() {
     : [];
 
   const scroller = useRef();
+
+  useEffect(() => {
+    scroller.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   const sendMessage = async (e) => {
     e.preventDefault();

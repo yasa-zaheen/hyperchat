@@ -7,19 +7,19 @@ import { auth } from "../firebase";
 function Message(props) {
   const { text, uid, photoURL, username, createdAt } = props.message;
 
-  const dateTimeObject = createdAt.toDate();
+  const dateTimeObject = createdAt?.toDate();
 
-  const messageTime = `${dateTimeObject.getDate()} ${new Intl.DateTimeFormat(
+  const messageTime = `${dateTimeObject?.getDate()} ${new Intl.DateTimeFormat(
     "en-US",
     {
       month: "short",
     }
   ).format(
-    dateTimeObject.getMonth()
-  )} ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${
-    dateTimeObject.getMinutes() < 10
-      ? `0${dateTimeObject.getMinutes()}`
-      : dateTimeObject.getMinutes()
+    dateTimeObject?.getMonth()
+  )} ${dateTimeObject?.getFullYear()} at ${dateTimeObject?.getHours()}:${
+    dateTimeObject?.getMinutes() < 10
+      ? `0${dateTimeObject?.getMinutes()}`
+      : dateTimeObject?.getMinutes()
   }`;
 
   const showMessage = () => {
