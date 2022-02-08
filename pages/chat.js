@@ -127,7 +127,7 @@ function Chat() {
     const currentTime = dateObject;
     const timeDelta = userLastSeen - currentTime;
 
-    if (timeDelta > 300000) {
+    if (timeDelta > 60000) {
       return "Inactive";
     } else {
       return "Active";
