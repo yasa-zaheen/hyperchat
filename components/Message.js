@@ -12,22 +12,10 @@ import { DotsHorizontalIcon, TrashIcon } from "@heroicons/react/outline";
 import { useRef } from "react";
 
 function Message(props) {
+  // Getting props
   const { text, uid, photoURL, username, createdAt, id } = props.message;
 
-  const dateTimeObject = createdAt?.toDate();
-
-  const messageTime = `${dateTimeObject?.getDate()} ${new Intl.DateTimeFormat(
-    "en-US",
-    {
-      month: "short",
-    }
-  ).format(
-    dateTimeObject?.getMonth()
-  )} ${dateTimeObject?.getFullYear()} at ${dateTimeObject?.getHours()}:${
-    dateTimeObject?.getMinutes() < 10
-      ? `0${dateTimeObject?.getMinutes()}`
-      : dateTimeObject?.getMinutes()
-  }`;
+  // Formatting date
 
   const actionCenter = useRef();
   const showActionCenter = () => {
@@ -40,69 +28,86 @@ function Message(props) {
     }
   };
 
+  const showMessageTime = () => {
+    if (createdAt) {
+      const dateTimeObject = createdAt.toDate();
+      return `${dateTimeObject.getDate()} / ${
+        dateTimeObject.getMonth() + 1
+      } / ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${
+        dateTimeObject.getMinutes() < 10
+          ? `0${dateTimeObject?.getMinutes()}`
+          : dateTimeObject?.getMinutes()
+      }`;
+    } else {
+      return "Delivering...";
+    }
+  };
+
   const deleteMessage = () => {
     db.collection("messages").doc(id).delete();
   };
 
   const showMessage = () => {
-    if (uid == auth.currentUser.uid) {
-      return (
-        <div className="w-full flex flex-col items-end mb-8 relative">
-          <p className="mr-14 text-xs font-medium mb-2 opacity-50">
-            {username}
-          </p>
-          <div className="flex w-full justify-end">
-            <div className="w-fit flex flex-row-reverse items-center">
-              <div className="overflow-hidden h-12 w-12 rounded-full relative">
-                <Image src={photoURL} layout="fill" objectFit="cover" />
-              </div>
-              <p className="h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white p-4 rounded-2xl rounded-br-none">
-                {text}
-              </p>
-              {/* Action center */}
-              <div className="relative">
-                <div
-                  ref={actionCenter}
-                  className="duration-200 ease-in-out scale-0 bg-white dark:bg-neutral-900 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
-                >
-                  <IconButton
-                    Icon={TrashIcon}
-                    onClick={deleteMessage}
-                    className="duration-200 ease-in-out h-10 w-10 p-3 text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
-                  />
-                </div>
-                <IconButton
-                  Icon={DotsHorizontalIcon}
-                  onClick={showActionCenter}
-                  className="mr-2 bg-neutral-50 h-10 w-10 p-2 text-neutral-500 dark:bg-neutral-800"
-                />
-              </div>
-            </div>
+    const sentMessage = uid == auth.currentUser.uid ? true : false;
+
+    const mainContainerStyle = sentMessage
+      ? "w-full flex flex-col items-end mb-8 relative"
+      : "w-full flex flex-col items-start mb-8 relative";
+    const usernameStyle = sentMessage
+      ? "mr-12 text-xs font-medium mb-2 opacity-50"
+      : "ml-12 text-xs font-medium mb-2 opacity-50";
+    const rowStyle = sentMessage
+      ? "w-fit flex flex-row-reverse items-center"
+      : "w-fit flex items-center";
+    const textStyle = sentMessage
+      ? "h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-full rounded-br-none"
+      : "h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-white px-4 py-2 rounded-full rounded-bl-none";
+    const actionCenterSyle = sentMessage ? "relative" : "hidden";
+    const timeSyle = sentMessage
+      ? "mr-14 text-xs mt-2 opacity-50"
+      : "ml-14 text-xs mt-2 opacity-50";
+
+    return (
+      // Main container
+      <div className={mainContainerStyle}>
+        {/* Username */}
+        <p className={usernameStyle}>{username}</p>
+
+        {/* Row */}
+        <div className={rowStyle}>
+          {/* Image */}
+          <div className="overflow-hidden h-10 w-10 rounded-full relative">
+            <Image src={photoURL} layout="fill" objectFit="cover" />
           </div>
-          <p className="mr-14 text-xs mt-2 opacity-50">{messageTime}</p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="w-full flex flex-col items-start mb-8">
-          <p className="ml-14 text-xs font-medium mb-2 opacity-50">
-            {username}
-          </p>
-          <div className="flex w-full items-start">
-            <div className="w-fit flex flex-row items-center">
-              <div className="overflow-hidden h-12 w-12 rounded-full relative">
-                <Image src={photoURL} layout="fill" objectFit="cover" />
-              </div>
-              <p className="h-fit ml-2 bg-neutral-50 dark:bg-neutral-800 dark:text-white text-black p-4 rounded-2xl rounded-bl-none">
-                {text}
-              </p>
-              {/* Action center */}
+
+          {/* Text */}
+          <p className={textStyle}>{text}</p>
+
+          {/* Action center */}
+          <div className={actionCenterSyle}>
+            {/* Action center */}
+            <div
+              ref={actionCenter}
+              className="duration-200 ease-in-out scale-0 bg-neutral-50 dark:bg-neutral-800 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
+            >
+              <IconButton
+                Icon={TrashIcon}
+                onClick={deleteMessage}
+                className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
+              />
             </div>
+            {/* Action center Btn */}
+            <IconButton
+              Icon={DotsHorizontalIcon}
+              onClick={showActionCenter}
+              className="mr-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white"
+            />
           </div>
-          <p className="ml-14 text-xs mt-2 opacity-50">{messageTime}</p>
         </div>
-      );
-    }
+        {/* Time */}
+        <p className={timeSyle}>{showMessageTime()}</p>
+      </div>
+    );
   };
 
   return showMessage();
