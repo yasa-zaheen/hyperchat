@@ -1,5 +1,5 @@
 // React
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 // Firebase
 import firebase from "firebase";
@@ -56,6 +56,10 @@ function Chat() {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    scroller.current.scrollIntoView({ behavior: "smooth" });
+  });
 
   return (
     <div className="h-screen w-full relative flex flex-col">
