@@ -27,10 +27,6 @@ function Chat() {
     idField: "id",
   });
 
-  const reversedMessagesSnapshot = messagesSnapshot
-    ? messagesSnapshot.reverse()
-    : [];
-
   const scroller = useRef();
 
   const sendMessage = async (e) => {
@@ -80,8 +76,8 @@ function Chat() {
 
       {/* Chat Area */}
       <div className="flex flex-col-reverse flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden">
-        {reversedMessagesSnapshot &&
-          reversedMessagesSnapshot.map((message) => (
+        {messagesSnapshot &&
+          messagesSnapshot.map((message) => (
             <Message key={message.id} message={message} />
           ))}
         <div ref={scroller}></div>
