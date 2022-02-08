@@ -124,7 +124,7 @@ function Chat() {
 
   return (
     <div className="h-screen w-full relative flex overflow-hidden">
-      <div className="hidden md:block w-1/3 p-4 overflow-scroll">
+      <div className="hidden md:block w-1/3 p-4 overflow-y-scroll">
         {usersSnapshot &&
           usersSnapshot.map((user) => <UserCard key={user.uid} user={user} />)}
       </div>
