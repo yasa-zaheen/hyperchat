@@ -57,10 +57,6 @@ function Chat() {
       });
   };
 
-  useEffect(() => {
-    scroller.current.scrollIntoView({ behavior: "smooth" });
-  }, [messagesSnapshot]);
-
   return (
     <div className="h-screen w-full relative flex flex-col">
       <div className="h-fit w-full bg-white z-50 flex justify-center items-center overflow-hidden p-4 absolute border-b-2 border-neutral-50">
