@@ -1,5 +1,5 @@
 // React
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 
 // Firebase
 import firebase from "firebase";
@@ -14,8 +14,6 @@ import IconButton from "../components/IconButton";
 import { ArrowCircleUpIcon, LogoutIcon } from "@heroicons/react/outline";
 
 function Chat() {
-  const firstLoad = useRef(true);
-
   const [formValue, setFormValue] = useState("");
 
   const user = auth.currentUser;
@@ -34,13 +32,6 @@ function Chat() {
     : [];
 
   const scroller = useRef();
-
-  useEffect(() => {
-    if (firstLoad.current) {
-      firstLoad.current = false;
-      scroller.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -88,7 +79,7 @@ function Chat() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden">
+      <div className="flex flex-col-reverse flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden">
         {reversedMessagesSnapshot &&
           reversedMessagesSnapshot.map((message) => (
             <Message key={message.id} message={message} />
