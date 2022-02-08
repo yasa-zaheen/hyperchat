@@ -97,23 +97,6 @@ function Message(props) {
                 {text}
               </p>
               {/* Action center */}
-              <div className="relative">
-                <div
-                  ref={actionCenter}
-                  className="duration-200 ease-in-out scale-0 bg-white left-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
-                >
-                  <IconButton
-                    Icon={TrashIcon}
-                    onClick={deleteMessage}
-                    className="duration-200 ease-in-out h-10 w-10 p-3 text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
-                  />
-                </div>
-                <IconButton
-                  Icon={DotsHorizontalIcon}
-                  onClick={showActionCenter}
-                  className="ml-2 bg-neutral-50 h-10 w-10 p-2 text-neutral-500"
-                />
-              </div>
             </div>
           </div>
           <p className="ml-14 text-xs mt-2 opacity-50">{messageTime}</p>
