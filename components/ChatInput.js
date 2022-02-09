@@ -47,6 +47,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
       });
 
       setFormValue("");
+      exitRepliedMessageViewer();
     }
 
     scroller.current.scrollIntoView({ behavior: "smooth" });

@@ -117,6 +117,12 @@ function Message({ message, setRepliedMessage }) {
               {repliedMessage}
             </div>
           );
+        } else {
+          return (
+            <div className="absolute -translate-y-3/4 left-12 bg-[#5856d6] rounded-full rounded-tl-none px-4 py-2 -z-10">
+              {repliedMessage}
+            </div>
+          );
         }
       }
     };
