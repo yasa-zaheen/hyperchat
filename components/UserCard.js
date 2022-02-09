@@ -9,7 +9,9 @@ function UserCard({ user }) {
     const timeDelta = userLastSeen - currentTime;
 
     if (timeDelta < -150000) {
-      return <div></div>;
+      return (
+        <div className="h-2 w-2 bg-white opacity-25 rounded-full ml-2"></div>
+      );
     } else {
       return <div className="h-2 w-2 bg-[#32c759] rounded-full ml-2"></div>;
     }
