@@ -19,16 +19,25 @@ function UserCard({ user, messages }) {
 
   const showLastSeen = (user) => {
     if (user.lastSeen) {
-      const dateTimeObject = user.lastSeen.toDate();
-      return `Last seen at ${dateTimeObject.getDate()} / ${
-        dateTimeObject.getMonth() + 1
-      } / ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${
-        dateTimeObject.getMinutes() < 10
-          ? `0${dateTimeObject?.getMinutes()}`
-          : dateTimeObject?.getMinutes()
-      }`;
+      const dateObject = new Date();
+      const currentTime = dateObject;
+      const timeDelta = user.lastSeen.toDate() - currentTime;
+      const timeDeltaInSeconds = Math.round((timeDelta * -1) / 1000);
+      const timeDeltaInMinutes = Math.round((timeDelta * -1) / 1000 / 60);
+      const timeDeltaHours = Math.round((timeDelta * -1) / 1000 / 60 / 60);
+
+      const message =
+        timeDeltaInSeconds < 60
+          ? `Last seen ${timeDeltaInSeconds}s ago`
+          : timeDeltaInMinutes < 60
+          ? `Last seen ${timeDeltaInMinutes}m ago`
+          : timeDeltaHours < 60
+          ? `Last seen ${timeDeltaHours}h ago`
+          : null;
+
+      return message;
     } else {
-      return "Last seen right now";
+      return "Last seen 0s ago";
     }
   };
 
