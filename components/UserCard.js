@@ -9,7 +9,7 @@ function UserCard({ user }) {
     const timeDelta = userLastSeen - currentTime;
 
     if (timeDelta < -150000) {
-      return null;
+      return <div></div>;
     } else {
       return <div className="h-2 w-2 bg-[#32c759] rounded-full ml-2"></div>;
     }
@@ -18,13 +18,15 @@ function UserCard({ user }) {
   const showLastSeen = (user) => {
     if (user.lastSeen) {
       const dateTimeObject = user.lastSeen.toDate();
-      return `${dateTimeObject.getDate()} / ${
+      return `Last seen at ${dateTimeObject.getDate()} / ${
         dateTimeObject.getMonth() + 1
       } / ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${
         dateTimeObject.getMinutes() < 10
           ? `0${dateTimeObject?.getMinutes()}`
           : dateTimeObject?.getMinutes()
       }`;
+    } else {
+      return "Last seen right now";
     }
   };
 
@@ -38,7 +40,7 @@ function UserCard({ user }) {
           {user.username}
           {activeStatus(user)}
         </p>
-        <p className="text-xs opacity-50">Last seen at {showLastSeen(user)}</p>
+        <p className="text-xs opacity-50">{showLastSeen(user)}</p>
       </div>
     </div>
   );
