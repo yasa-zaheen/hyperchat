@@ -8,7 +8,7 @@ function UserCard({ user, messages }) {
     const currentTime = dateObject;
     const timeDelta = userLastSeen - currentTime;
 
-    if (timeDelta < -5000) {
+    if (timeDelta < -150000) {
       return (
         <div className="h-2 w-2 bg-white opacity-25 rounded-full ml-2"></div>
       );
