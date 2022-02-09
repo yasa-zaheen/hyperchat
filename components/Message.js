@@ -94,11 +94,18 @@ function Message({ message, setRepliedMessage }) {
     const showActionCenterBtn = () => {
       if (sentMessage) {
         return (
-          <IconButton
-            Icon={DotsHorizontalIcon}
-            onClick={showActionCenter}
-            className={actionCenterBtnStyle}
-          />
+          <div>
+            <IconButton
+              Icon={DotsHorizontalIcon}
+              onClick={showActionCenter}
+              className={actionCenterBtnStyle}
+            />
+            <IconButton
+              Icon={ReplyIcon}
+              onClick={deliverReplyMessage}
+              className={actionCenterBtnStyle}
+            />
+          </div>
         );
       } else if (!sentMessage) {
         return (
