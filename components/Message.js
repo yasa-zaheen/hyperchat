@@ -59,6 +59,7 @@ function Message({ message, setRepliedMessage }) {
   const showMessage = () => {
     const sentMessage = uid == auth.currentUser.uid ? true : false;
 
+    // Text Message Styles
     const mainContainerStyle = sentMessage
       ? "w-full flex flex-col items-end mb-8 relative"
       : "w-full flex flex-col items-start mb-8 relative";
@@ -80,6 +81,14 @@ function Message({ message, setRepliedMessage }) {
     const timeSyle = sentMessage
       ? "mr-14 text-xs mt-2 opacity-50 -z-20"
       : "ml-14 text-xs mt-2 opacity-50 -z-20";
+
+    // Replied Message Styles
+    const repliedUsernameStyle = sentMessage
+      ? "mr-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20"
+      : "ml-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20";
+    const repliedTextStyle = sentMessage
+      ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-full -z-50"
+      : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-full -z-50";
 
     // Action center button
     const showActionCenterBtn = () => {
@@ -107,61 +116,84 @@ function Message({ message, setRepliedMessage }) {
       setRepliedMessage(text);
     };
 
-    const showRepliedMessage = () => {
-      if (repliedMessage == "") {
-        return <div></div>;
-      } else {
-        if (sentMessage) {
-          return (
-            <div className="absolute -translate-y-3/4 right-12 bg-[#5856d6] rounded-full rounded-tr-none px-4 py-2 -z-10">
-              {repliedMessage}
-            </div>
-          );
-        } else {
-          return (
-            <div className="absolute -translate-y-3/4 left-12 bg-[#5856d6] rounded-full rounded-tl-none px-4 py-2 -z-10">
-              {repliedMessage}
-            </div>
-          );
-        }
-      }
-    };
+    // Deciding which message to show
+    if (repliedMessage != "") {
+      return (
+        // Main Container
+        <div className={mainContainerStyle}>
+          {/* Username */}
+          <p className={repliedUsernameStyle}>{username}</p>
 
-    return (
-      // Main container
-      <div className={mainContainerStyle}>
-        {/* Username */}
-        <p className={usernameStyle}>{username}</p>
-
-        {/* Row */}
-        <div className={rowStyle}>
-          {/* Image */}
-          <div className="overflow-hidden h-10 w-10 rounded-full relative">
-            <Image src={photoURL} layout="fill" objectFit="cover" />
+          {/* Replied Message */}
+          <div className={repliedTextStyle}>
+            <p>{repliedMessage}</p>
           </div>
 
-          {/* Text */}
-          {showRepliedMessage()}
-          <p className={textStyle}>{text}</p>
+          {/* Row */}
+          <div className={rowStyle}>
+            {/* Image */}
+            <div className="overflow-hidden h-10 w-10 rounded-full relative">
+              <Image src={photoURL} layout="fill" objectFit="cover" />
+            </div>
 
-          {/* Action center */}
-          <div className="relative">
+            {/* Text */}
+            <p className={textStyle}>{text}</p>
+
             {/* Action center */}
-            <div ref={actionCenter} className={actionCenterStyle}>
-              <IconButton
-                Icon={TrashIcon}
-                onClick={deleteMessage}
-                className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
-              />
+            <div className="relative">
+              {/* Action center */}
+              <div ref={actionCenter} className={actionCenterStyle}>
+                <IconButton
+                  Icon={TrashIcon}
+                  onClick={deleteMessage}
+                  className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
+                />
+              </div>
+              {/* Action center Btn */}
+              {showActionCenterBtn()}
             </div>
-            {/* Action center Btn */}
-            {showActionCenterBtn()}
           </div>
+
+          {/* Timestamp */}
+          <p className={timeSyle}>{showMessageTime()}</p>
         </div>
-        {/* Time */}
-        <p className={timeSyle}>{showMessageTime()}</p>
-      </div>
-    );
+      );
+    } else {
+      return (
+        // Main container
+        <div className={mainContainerStyle}>
+          {/* Username */}
+          <p className={usernameStyle}>{username}</p>
+
+          {/* Row */}
+          <div className={rowStyle}>
+            {/* Image */}
+            <div className="overflow-hidden h-10 w-10 rounded-full relative">
+              <Image src={photoURL} layout="fill" objectFit="cover" />
+            </div>
+
+            {/* Text */}
+            <p className={textStyle}>{text}</p>
+
+            {/* Action center */}
+            <div className="relative">
+              {/* Action center */}
+              <div ref={actionCenter} className={actionCenterStyle}>
+                <IconButton
+                  Icon={TrashIcon}
+                  onClick={deleteMessage}
+                  className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
+                />
+              </div>
+              {/* Action center Btn */}
+              {showActionCenterBtn()}
+            </div>
+          </div>
+          {/* Time */}
+          <p className={timeSyle}>{showMessageTime()}</p>
+        </div>
+      );
+    }
   };
 
   return showMessage();
