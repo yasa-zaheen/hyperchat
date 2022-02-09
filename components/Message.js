@@ -61,7 +61,7 @@ function Message(props) {
       : "w-fit flex items-center";
     const textStyle = sentMessage
       ? "h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-full rounded-br-none"
-      : "h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-white px-4 py-2 rounded-full rounded-bl-none";
+      : "h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-full rounded-bl-none";
     const actionCenterSyle = sentMessage ? "relative" : "hidden";
     const timeSyle = sentMessage
       ? "mr-14 text-xs mt-2 opacity-50"
