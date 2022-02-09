@@ -96,13 +96,13 @@ function Message({ message, setRepliedMessage }) {
         return (
           <div>
             <IconButton
-              Icon={DotsHorizontalIcon}
-              onClick={showActionCenter}
+              Icon={ReplyIcon}
+              onClick={deliverReplyMessage}
               className={actionCenterBtnStyle}
             />
             <IconButton
-              Icon={ReplyIcon}
-              onClick={deliverReplyMessage}
+              Icon={DotsHorizontalIcon}
+              onClick={showActionCenter}
               className={actionCenterBtnStyle}
             />
           </div>
