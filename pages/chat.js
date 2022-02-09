@@ -10,6 +10,7 @@ import ChatArea from "../components/ChatArea";
 function Chat() {
   const scroller = useRef();
   const [activityBarHidden, setActivityBarHidden] = useState(true);
+  const [repliedMessage, setRepliedMessage] = useState("");
 
   return (
     <div className="relative h-full sm:h-screen w-full flex overflow-hidden">
@@ -20,8 +21,12 @@ function Chat() {
           activityBarHidden={activityBarHidden}
           setActivityBarHidden={setActivityBarHidden}
         />
-        <ChatArea scroller={scroller} />
-        <ChatInput scroller={scroller} />
+        <ChatArea scroller={scroller} setRepliedMessage={setRepliedMessage} />
+        <ChatInput
+          scroller={scroller}
+          repliedMessage={repliedMessage}
+          setRepliedMessage={setRepliedMessage}
+        />
       </div>
     </div>
   );
