@@ -25,6 +25,14 @@ function ActivityBar({ hidden }) {
   const usersDocuments = usersCollection.orderBy("lastSeen", "desc");
   const [usersSnapshot] = useCollectionData(usersDocuments);
 
+  const messagesCollection = db.collection("messages");
+  const messagesDocuments = messagesCollection
+    .orderBy("createdAt", "desc")
+    .limit(25);
+  const [messagesSnapshot] = useCollectionData(messagesDocuments, {
+    idField: "id",
+  });
+
   // Condition
 
   mounted
@@ -39,7 +47,9 @@ function ActivityBar({ hidden }) {
       className="absolute md:relative -translate-x-full md:translate-x-0 z-50 h-screen w-full md:w-1/3 bg-white dark:bg-black mt-16 sm:m-0 p-4 overflow-y-scroll duration-200 ease-in-out scrollbar-thin scrollbar-track-neutral-50 scrollbar-thumb-neutral-200 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-900"
     >
       {usersSnapshot &&
-        usersSnapshot.map((user) => <UserCard key={user.uid} user={user} />)}
+        usersSnapshot.map((user) => (
+          <UserCard key={user.uid} user={user} messages={messagesSnapshot} />
+        ))}
     </div>
   );
 }

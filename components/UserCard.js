@@ -1,14 +1,14 @@
 // Next JS
 import Image from "next/image";
 
-function UserCard({ user }) {
+function UserCard({ user, messages }) {
   const activeStatus = (user) => {
     const userLastSeen = user.lastSeen?.toDate();
     const dateObject = new Date();
     const currentTime = dateObject;
     const timeDelta = userLastSeen - currentTime;
 
-    if (timeDelta < -150000) {
+    if (timeDelta < -5000) {
       return (
         <div className="h-2 w-2 bg-white opacity-25 rounded-full ml-2"></div>
       );
