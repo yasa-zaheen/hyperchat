@@ -19,6 +19,9 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
   // States
   const [formValue, setFormValue] = useState("");
 
+  // Refs
+  const formInput = useRef();
+
   // Functions
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -62,6 +65,8 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
 
       repliedMessageViewer.current.classList.add("h-fit");
       repliedMessageViewer.current.classList.add("p-4");
+
+      formInput.current.focus();
     }
   }, [repliedMessage]);
 
@@ -80,7 +85,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
       {/* Replied Message Viewer */}
       <div
         ref={repliedMessageViewer}
-        className="p-0 h-0 duration-200 ease-in-out w-full flex justify-between bg-neutral-800 overflow-hidden"
+        className="p-0 h-0 duration-200 ease-in-out w-full flex justify-between bg-neutral-50 dark:bg-neutral-800 overflow-hidden"
       >
         <div>
           <p className="text-xs">replying to</p>
@@ -98,6 +103,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
       >
         <input
           type="text"
+          ref={formInput}
           value={formValue}
           onChange={(e) => {
             setFormValue(e.target.value);
