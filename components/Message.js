@@ -70,8 +70,8 @@ function Message({ message, setRepliedMessage }) {
       ? "w-fit flex flex-row-reverse items-center"
       : "w-fit flex items-center";
     const textStyle = sentMessage
-      ? "h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-full rounded-br-none"
-      : "h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-full rounded-bl-none";
+      ? "h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none"
+      : "h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none";
     const actionCenterStyle = sentMessage
       ? "duration-200 ease-in-out scale-0 bg-neutral-50 dark:bg-neutral-800 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
       : "hidden";
@@ -87,8 +87,8 @@ function Message({ message, setRepliedMessage }) {
       ? "mr-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20"
       : "ml-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20";
     const repliedTextStyle = sentMessage
-      ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-full -z-50"
-      : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-full -z-50";
+      ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
+      : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
 
     // Action center button
     const showActionCenterBtn = () => {
