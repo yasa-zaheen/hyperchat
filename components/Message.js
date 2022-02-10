@@ -46,14 +46,23 @@ function Message({ message, setRepliedMessage }) {
   // Formatting date
   const showMessageTime = () => {
     if (createdAt) {
-      const dateTimeObject = createdAt.toDate();
-      return `${dateTimeObject.getDate()} / ${
-        dateTimeObject.getMonth() + 1
-      } / ${dateTimeObject.getFullYear()} at ${dateTimeObject.getHours()}:${
-        dateTimeObject.getMinutes() < 10
-          ? `0${dateTimeObject?.getMinutes()}`
-          : dateTimeObject?.getMinutes()
-      }`;
+      const dateObject = new Date();
+      const currentTime = dateObject;
+      const timeDelta = createdAt.toDate() - currentTime;
+      const timeDeltaInSeconds = Math.round((timeDelta * -1) / 1000);
+      const timeDeltaInMinutes = Math.round((timeDelta * -1) / 1000 / 60);
+      const timeDeltaHours = Math.round((timeDelta * -1) / 1000 / 60 / 60);
+
+      const message =
+        timeDeltaInSeconds < 60
+          ? `Sent ${timeDeltaInSeconds}s ago`
+          : timeDeltaInMinutes < 60
+          ? `Sent ${timeDeltaInMinutes}m ago`
+          : timeDeltaHours < 60
+          ? `Sent ${timeDeltaHours}h ago`
+          : null;
+
+      return message;
     } else {
       return "Delivering...";
     }
@@ -123,16 +132,6 @@ function Message({ message, setRepliedMessage }) {
     };
 
     const showLikeBtn = () => {
-      // <div className="flex items-center">
-      //   <p className="text-xs font-extralight opacity-50 mr-2">
-      //     {reactions.length}
-      //   </p>
-      //   <IconButton
-      //     Icon={HeartIcon}
-      //     onClick={likeMessage}
-      //     className="mr-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white"
-      //   />
-      // </div>;
       if (reactions) {
         if (sentMessage) {
           var iconColor = "";
