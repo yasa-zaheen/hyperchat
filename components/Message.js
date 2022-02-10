@@ -31,6 +31,18 @@ function Message({ message, setRepliedMessage }) {
     reactions,
   } = message;
 
+  // Action center button functions
+  const actionCenter = useRef();
+  const showActionCenter = () => {
+    if (actionCenter.current.classList.contains("scale-0")) {
+      actionCenter.current.classList.remove("scale-0");
+      actionCenter.current.classList.add("scale-1");
+    } else {
+      actionCenter.current.classList.add("scale-0");
+      actionCenter.current.classList.remove("scale-1");
+    }
+  };
+
   // Formatting date
   const showMessageTime = () => {
     if (createdAt) {
@@ -81,18 +93,6 @@ function Message({ message, setRepliedMessage }) {
     const repliedTextStyle = sentMessage
       ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
       : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
-
-    // Action center button functions
-    const actionCenter = useRef();
-    const showActionCenter = () => {
-      if (actionCenter.current.classList.contains("scale-0")) {
-        actionCenter.current.classList.remove("scale-0");
-        actionCenter.current.classList.add("scale-1");
-      } else {
-        actionCenter.current.classList.add("scale-0");
-        actionCenter.current.classList.remove("scale-1");
-      }
-    };
 
     const deleteMessage = () => {
       db.collection("messages").doc(id).delete();
