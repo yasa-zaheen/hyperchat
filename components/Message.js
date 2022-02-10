@@ -15,24 +15,21 @@ import {
   DotsHorizontalIcon,
   ReplyIcon,
   TrashIcon,
+  HeartIcon,
 } from "@heroicons/react/outline";
 
 function Message({ message, setRepliedMessage }) {
   // Getting props
-  const { text, uid, photoURL, username, createdAt, id, repliedMessage } =
-    message;
-
-  // Action center
-  const actionCenter = useRef();
-  const showActionCenter = () => {
-    if (actionCenter.current.classList.contains("scale-0")) {
-      actionCenter.current.classList.remove("scale-0");
-      actionCenter.current.classList.add("scale-1");
-    } else {
-      actionCenter.current.classList.add("scale-0");
-      actionCenter.current.classList.remove("scale-1");
-    }
-  };
+  const {
+    text,
+    uid,
+    photoURL,
+    username,
+    createdAt,
+    id,
+    repliedMessage,
+    reactions,
+  } = message;
 
   // Formatting date
   const showMessageTime = () => {
@@ -48,11 +45,6 @@ function Message({ message, setRepliedMessage }) {
     } else {
       return "Delivering...";
     }
-  };
-
-  // Delete Message
-  const deleteMessage = () => {
-    db.collection("messages").doc(id).delete();
   };
 
   // Show Message
@@ -90,11 +82,112 @@ function Message({ message, setRepliedMessage }) {
       ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
       : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
 
+    // Action center button functions
+    const actionCenter = useRef();
+    const showActionCenter = () => {
+      if (actionCenter.current.classList.contains("scale-0")) {
+        actionCenter.current.classList.remove("scale-0");
+        actionCenter.current.classList.add("scale-1");
+      } else {
+        actionCenter.current.classList.add("scale-0");
+        actionCenter.current.classList.remove("scale-1");
+      }
+    };
+
+    const deleteMessage = () => {
+      db.collection("messages").doc(id).delete();
+    };
+
+    const deliverReplyMessage = () => {
+      setRepliedMessage(text);
+    };
+
+    const likeMessage = async () => {
+      if (!reactions.includes(auth.currentUser.uid)) {
+        await db
+          .collection("messages")
+          .doc(id)
+          .update({
+            reactions: reactions.concat([auth.currentUser.uid]),
+          });
+      } else {
+        const reactionsRef = reactions.filter((value) => {
+          if (value != auth.currentUser.uid) {
+            return value;
+          }
+        });
+        await db.collection("messages").doc(id).update({
+          reactions: reactionsRef,
+        });
+      }
+    };
+
+    const showLikeBtn = () => {
+      // <div className="flex items-center">
+      //   <p className="text-xs font-extralight opacity-50 mr-2">
+      //     {reactions.length}
+      //   </p>
+      //   <IconButton
+      //     Icon={HeartIcon}
+      //     onClick={likeMessage}
+      //     className="mr-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white"
+      //   />
+      // </div>;
+      if (reactions) {
+        if (sentMessage) {
+          var iconColor = "";
+          if (!reactions.includes(auth.currentUser.uid)) {
+            iconColor = "text-black dark:text-white";
+          } else {
+            iconColor = "text-[#ff2d55]";
+          }
+
+          const likeBtnStyle = `mr-2 bg-neutral-50 dark:bg-neutral-800 ${iconColor}`;
+
+          return (
+            <div className="flex items-center">
+              <p className="text-xs font-extralight opacity-50 mr-2">
+                {reactions.length}
+              </p>
+              <IconButton
+                Icon={HeartIcon}
+                onClick={likeMessage}
+                className={likeBtnStyle}
+              />
+            </div>
+          );
+        } else {
+          var iconColor = "";
+          if (!reactions.includes(auth.currentUser.uid)) {
+            iconColor = "text-black dark:text-white";
+          } else {
+            iconColor = "text-[#ff2d55]";
+          }
+
+          const likeBtnStyle = `ml-2 bg-neutral-50 dark:bg-neutral-800 ${iconColor}`;
+
+          return (
+            <div className="flex items-center">
+              <IconButton
+                Icon={HeartIcon}
+                onClick={likeMessage}
+                className={likeBtnStyle}
+              />
+              <p className="text-xs font-extralight opacity-50 ml-2">
+                {reactions.length}
+              </p>
+            </div>
+          );
+        }
+      }
+    };
+
     // Action center button
     const showActionCenterBtn = () => {
       if (sentMessage) {
         return (
-          <div>
+          <div className="flex">
+            {showLikeBtn()}
             <IconButton
               Icon={ReplyIcon}
               onClick={deliverReplyMessage}
@@ -109,18 +202,16 @@ function Message({ message, setRepliedMessage }) {
         );
       } else if (!sentMessage) {
         return (
-          <IconButton
-            Icon={ReplyIcon}
-            onClick={deliverReplyMessage}
-            className={actionCenterBtnStyle}
-          />
+          <div className="flex">
+            <IconButton
+              Icon={ReplyIcon}
+              onClick={deliverReplyMessage}
+              className={actionCenterBtnStyle}
+            />
+            {showLikeBtn()}
+          </div>
         );
       }
-    };
-
-    // Deliver Reply Message
-    const deliverReplyMessage = () => {
-      setRepliedMessage(text);
     };
 
     // Deciding which message to show

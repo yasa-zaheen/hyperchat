@@ -47,6 +47,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
         uid: uid,
         photoURL: photoURL,
         repliedMessage: repliedMessage,
+        reactions: [],
       });
 
       setFormValue("");
