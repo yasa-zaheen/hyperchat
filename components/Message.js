@@ -31,7 +31,7 @@ function Message({ message, setRepliedMessage }) {
     reactions,
   } = message;
 
-  // Action center button functions
+  // Action Center
   const actionCenter = useRef();
   const showActionCenter = () => {
     if (actionCenter.current.classList.contains("scale-0")) {
@@ -43,7 +43,7 @@ function Message({ message, setRepliedMessage }) {
     }
   };
 
-  // Formatting date
+  // Message Time
   const showMessageTime = () => {
     if (createdAt) {
       const dateObject = new Date();
@@ -68,23 +68,48 @@ function Message({ message, setRepliedMessage }) {
     }
   };
 
-  // Show Message
+  // Deciding which type of message to show
   const showMessage = () => {
     const sentMessage = uid == auth.currentUser.uid ? true : false;
 
     // Text Message Styles
+    let reactionStyle = "";
+    if (reactions.length == 1) {
+      reactionStyle = "px-6 py-3 bg-gradient-to-r from-[#973aa8] to-[#822faf]";
+    } else if (reactions.length == 2) {
+      reactionStyle = "px-8 py-4 bg-gradient-to-r from-[#ac46a1] to-[#6d23b6]";
+    } else if (reactions.length == 3) {
+      reactionStyle = "px-10 py-5 bg-gradient-to-r from-[#c05299] to-[#6411ad]";
+    } else if (reactions.length == 4) {
+      reactionStyle = "px-12 py-6 bg-gradient-to-r from-[#d55d92] to-[#571089]";
+    } else if (reactions.length >= 5) {
+      reactionStyle =
+        "px-20 py-10 bg-gradient-to-r from-[#ea698b] to-[#47126b]";
+    }
+
     const mainContainerStyle = sentMessage
-      ? "w-full flex flex-col items-end mb-8 relative"
-      : "w-full flex flex-col items-start mb-8 relative";
+      ? "w-full flex flex-col items-end mb-8 relative cursor-pointer select-none"
+      : "w-full flex flex-col items-start mb-8 relative cursor-pointer select-none";
     const usernameStyle = sentMessage
-      ? "mr-12 text-xs font-medium mb-2 opacity-50 -z-20"
-      : "ml-12 text-xs font-medium mb-2 opacity-50 -z-20";
+      ? repliedMessage == ""
+        ? "mr-12 text-xs font-medium mb-2 opacity-50 -z-20"
+        : "mr-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20"
+      : repliedMessage == ""
+      ? "ml-12 text-xs font-medium mb-2 opacity-50 -z-20"
+      : "ml-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20";
     const rowStyle = sentMessage
       ? "w-fit flex flex-row-reverse items-center"
       : "w-fit flex items-center";
+    const textContainerStyle = sentMessage
+      ? "flex flex-col items-end justify-end relative"
+      : "flex flex-col items-start justify-end relative";
     const textStyle = sentMessage
-      ? "h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none"
-      : "h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none";
+      ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none ${reactionStyle} duration-200 ease-in-out`
+      : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} duration-200 ease-in-out`;
+    const likeCounterStyle = sentMessage
+      ? "bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row-reverse items-center justify-center"
+      : "bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row items-center justify-center";
+    const heartIconStyle = sentMessage ? "h-3 w-3 ml-1" : "h-3 w-3 mr-1";
     const actionCenterStyle = sentMessage
       ? "duration-200 ease-in-out scale-0 bg-neutral-50 dark:bg-neutral-800 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
       : "hidden";
@@ -94,11 +119,6 @@ function Message({ message, setRepliedMessage }) {
     const timeSyle = sentMessage
       ? "mr-14 text-xs mt-2 opacity-50 -z-20"
       : "ml-14 text-xs mt-2 opacity-50 -z-20";
-
-    // Replied Message Styles
-    const repliedUsernameStyle = sentMessage
-      ? "mr-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20"
-      : "ml-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20";
     const repliedTextStyle = sentMessage
       ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
       : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
@@ -131,62 +151,11 @@ function Message({ message, setRepliedMessage }) {
       }
     };
 
-    const showLikeBtn = () => {
-      if (reactions) {
-        if (sentMessage) {
-          var iconColor = "";
-          if (!reactions.includes(auth.currentUser.uid)) {
-            iconColor = "text-black dark:text-white";
-          } else {
-            iconColor = "text-[#ff2d55]";
-          }
-
-          const likeBtnStyle = `mr-2 bg-neutral-50 dark:bg-neutral-800 ${iconColor}`;
-
-          return (
-            <div className="flex items-center">
-              <p className="text-xs font-extralight opacity-50 mr-2">
-                {reactions.length}
-              </p>
-              <IconButton
-                Icon={HeartIcon}
-                onClick={likeMessage}
-                className={likeBtnStyle}
-              />
-            </div>
-          );
-        } else {
-          var iconColor = "";
-          if (!reactions.includes(auth.currentUser.uid)) {
-            iconColor = "text-black dark:text-white";
-          } else {
-            iconColor = "text-[#ff2d55]";
-          }
-
-          const likeBtnStyle = `ml-2 bg-neutral-50 dark:bg-neutral-800 ${iconColor}`;
-
-          return (
-            <div className="flex items-center">
-              <IconButton
-                Icon={HeartIcon}
-                onClick={likeMessage}
-                className={likeBtnStyle}
-              />
-              <p className="text-xs font-extralight opacity-50 ml-2">
-                {reactions.length}
-              </p>
-            </div>
-          );
-        }
-      }
-    };
-
     // Action center button
     const showActionCenterBtn = () => {
       if (sentMessage) {
         return (
           <div className="flex">
-            {showLikeBtn()}
             <IconButton
               Icon={ReplyIcon}
               onClick={deliverReplyMessage}
@@ -207,90 +176,80 @@ function Message({ message, setRepliedMessage }) {
               onClick={deliverReplyMessage}
               className={actionCenterBtnStyle}
             />
-            {showLikeBtn()}
           </div>
         );
       }
     };
 
-    // Deciding which message to show
-    if (repliedMessage != "") {
-      return (
-        // Main Container
-        <div className={mainContainerStyle}>
-          {/* Username */}
-          <p className={repliedUsernameStyle}>{username}</p>
-
-          {/* Replied Message */}
+    // Replied Message
+    const showRepliedMessage = () => {
+      if (repliedMessage != "") {
+        return (
           <div className={repliedTextStyle}>
             <p>{repliedMessage}</p>
           </div>
+        );
+      } else {
+        return null;
+      }
+    };
 
-          {/* Row */}
-          <div className={rowStyle}>
-            {/* Image */}
-            <div className="overflow-hidden h-10 w-10 rounded-full relative">
-              <Image src={photoURL} layout="fill" objectFit="cover" />
-            </div>
+    // Likes
+    const showLikes = () => {
+      if (reactions.length != 0) {
+        return (
+          <p className={likeCounterStyle}>
+            <HeartIcon className={heartIconStyle} />
+            {reactions.length}
+          </p>
+        );
+      } else {
+        return null;
+      }
+    };
 
-            {/* Text */}
-            <p className={textStyle}>{text}</p>
+    // Deciding which message to show
+    return (
+      // Main container
+      <div onDoubleClick={likeMessage} className={mainContainerStyle}>
+        {/* Username */}
+        <p className={usernameStyle}>{username}</p>
 
-            {/* Action center */}
-            <div className="relative">
-              {/* Action center */}
-              <div ref={actionCenter} className={actionCenterStyle}>
-                <IconButton
-                  Icon={TrashIcon}
-                  onClick={deleteMessage}
-                  className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
-                />
-              </div>
-              {/* Action center Btn */}
-              {showActionCenterBtn()}
-            </div>
+        {/* Replied Message */}
+        {showRepliedMessage()}
+
+        {/* Row */}
+        <div className={rowStyle}>
+          {/* Image */}
+          <div className="overflow-hidden h-10 w-10 rounded-full relative">
+            <Image src={photoURL} layout="fill" objectFit="cover" />
           </div>
 
-          {/* Timestamp */}
-          <p className={timeSyle}>{showMessageTime()}</p>
-        </div>
-      );
-    } else {
-      return (
-        // Main container
-        <div className={mainContainerStyle}>
-          {/* Username */}
-          <p className={usernameStyle}>{username}</p>
-
-          {/* Row */}
-          <div className={rowStyle}>
-            {/* Image */}
-            <div className="overflow-hidden h-10 w-10 rounded-full relative">
-              <Image src={photoURL} layout="fill" objectFit="cover" />
-            </div>
-
+          <div className={textContainerStyle}>
             {/* Text */}
             <p className={textStyle}>{text}</p>
-
-            {/* Action center */}
-            <div className="relative">
-              {/* Action center */}
-              <div ref={actionCenter} className={actionCenterStyle}>
-                <IconButton
-                  Icon={TrashIcon}
-                  onClick={deleteMessage}
-                  className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
-                />
-              </div>
-              {/* Action center Btn */}
-              {showActionCenterBtn()}
-            </div>
+            {showLikes()}
+            {/* Likes */}
           </div>
-          {/* Time */}
-          <p className={timeSyle}>{showMessageTime()}</p>
+
+          {/* Action center */}
+          <div className="relative">
+            {/* Action center */}
+            <div ref={actionCenter} className={actionCenterStyle}>
+              <IconButton
+                Icon={TrashIcon}
+                onClick={deleteMessage}
+                className="duration-200 ease-in-out text-[#ff3b30] hover:bg-[#ff3b302f] active:brightness-50"
+              />
+            </div>
+            {/* Action center Btn */}
+            {showActionCenterBtn()}
+          </div>
         </div>
-      );
-    }
+        {/* Time */}
+        <p className={timeSyle}>{showMessageTime()}</p>
+      </div>
+    );
   };
 
   return showMessage();
