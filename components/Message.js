@@ -1,5 +1,5 @@
 // React
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // Next
 import Image from "next/image";
@@ -75,16 +75,20 @@ function Message({ message, setRepliedMessage }) {
     // Text Message Styles
     let reactionStyle = "";
     if (reactions.length == 1) {
-      reactionStyle = "px-6 py-3 bg-gradient-to-r from-[#973aa8] to-[#822faf]";
+      reactionStyle =
+        "px-6 py-3 bg-gradient-to-r from-[#00b4d8] to-[#00b4d8] dark:from-[#973aa8] dark:to-[#822faf]";
     } else if (reactions.length == 2) {
-      reactionStyle = "px-8 py-4 bg-gradient-to-r from-[#ac46a1] to-[#6d23b6]";
+      reactionStyle =
+        "px-8 py-4 bg-gradient-to-r from-[#0096c7] to-[#48cae4] dark:from-[#ac46a1] dark:to-[#6d23b6]";
     } else if (reactions.length == 3) {
-      reactionStyle = "px-10 py-5 bg-gradient-to-r from-[#c05299] to-[#6411ad]";
+      reactionStyle =
+        "px-10 py-5 bg-gradient-to-r from-[#90e0ef] to-[#0077b6] dark:from-[#c05299] dark:to-[#6411ad]";
     } else if (reactions.length == 4) {
-      reactionStyle = "px-12 py-6 bg-gradient-to-r from-[#d55d92] to-[#571089]";
+      reactionStyle =
+        "px-12 py-6 bg-gradient-to-r from-[#ade8f4] to-[#023e8a] dark:from-[#d55d92] dark:to-[#571089]";
     } else if (reactions.length >= 5) {
       reactionStyle =
-        "px-20 py-10 bg-gradient-to-r from-[#ea698b] to-[#47126b]";
+        "px-20 py-10 bg-gradient-to-r from-[#caf0f8] to-[#03045e] dark:from-[#ea698b] dark:to-[#47126b]";
     }
 
     const mainContainerStyle = sentMessage
@@ -107,8 +111,8 @@ function Message({ message, setRepliedMessage }) {
       ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none ${reactionStyle} duration-200 ease-in-out`
       : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} duration-200 ease-in-out`;
     const likeCounterStyle = sentMessage
-      ? "bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row-reverse items-center justify-center"
-      : "bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row items-center justify-center";
+      ? "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row-reverse items-center justify-center"
+      : "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row items-center justify-center";
     const heartIconStyle = sentMessage ? "h-3 w-3 ml-1" : "h-3 w-3 mr-1";
     const actionCenterStyle = sentMessage
       ? "duration-200 ease-in-out scale-0 bg-neutral-50 dark:bg-neutral-800 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
