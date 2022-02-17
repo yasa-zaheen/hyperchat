@@ -86,9 +86,22 @@ function Message({ message, setRepliedMessage }) {
     } else if (reactions.length == 4) {
       reactionStyle =
         "px-12 py-6 bg-gradient-to-r from-[#ade8f4] to-[#023e8a] dark:from-[#d55d92] dark:to-[#571089]";
-    } else if (reactions.length >= 5) {
+    } else if (reactions.length == 5) {
+      reactionStyle = "px-14 py-7 bg-gradient-to-r from-[#ffb700] to-[#ffaa00]";
+    } else if (reactions.length == 6) {
+      reactionStyle = "px-16 py-8 bg-gradient-to-r from-[#ffc300] to-[#ffa200]";
+    } else if (reactions.length == 7) {
       reactionStyle =
-        "px-20 py-10 bg-gradient-to-r from-[#caf0f8] to-[#03045e] dark:from-[#ea698b] dark:to-[#47126b]";
+        "px-20 py-10 bg-gradient-to-r from-[#ff9500] to-[#ffd000]";
+    } else if (reactions.length == 8) {
+      reactionStyle =
+        "px-24 py-12 bg-gradient-to-r from-[#ff8800] to-[#ffdd00]";
+    } else if (reactions.length == 9) {
+      reactionStyle =
+        "px-28 py-14 bg-gradient-to-r from-[#ff7b00] to-[#ffea00]";
+    } else if (reactions.length == 10) {
+      reactionStyle =
+        "px-32 py-16 bg-gradient-to-r from-[#caf0f8] to-[#03045e] bg-[url('https://media.giphy.com/media/dBxDfKQKl7lOCv4DY5/giphy.gif')]";
     }
 
     const mainContainerStyle = sentMessage
@@ -108,8 +121,8 @@ function Message({ message, setRepliedMessage }) {
       ? "flex flex-col items-end justify-end relative"
       : "flex flex-col items-start justify-end relative";
     const textStyle = sentMessage
-      ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none ${reactionStyle} duration-200 ease-in-out`
-      : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} duration-200 ease-in-out`;
+      ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`
+      : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
     const likeCounterStyle = sentMessage
       ? "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row-reverse items-center justify-center"
       : "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row items-center justify-center";
@@ -225,7 +238,7 @@ function Message({ message, setRepliedMessage }) {
         {/* Row */}
         <div className={rowStyle}>
           {/* Image */}
-          <div className="overflow-hidden h-10 w-10 rounded-full relative">
+          <div className="overflow-hidden h-10 w-10 rounded-full relative px">
             <Image src={photoURL} layout="fill" objectFit="cover" />
           </div>
 
