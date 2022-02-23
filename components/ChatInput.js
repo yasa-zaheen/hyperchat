@@ -196,7 +196,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
           hidden
         />
         <label
-          for="actual-btn"
+          htmlFor="actual-btn"
           className="cursor-pointer h-10 w-10 p-3 dark:bg-[#ff2d55] rounded-full active:brightness-75 active:scale-90 text-white mr-4"
         >
           <PlusCircleIcon />
