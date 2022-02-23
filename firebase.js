@@ -9,6 +9,7 @@ const firebaseConfig = {
   storageBucket: "hyperchat-90b56.appspot.com",
   messagingSenderId: "749821318388",
   appId: "1:749821318388:web:6cd8d74de6d8ef29be7aa1",
+  storageBucket: "gs://hyperchat-90b56.appspot.com",
 };
 
 // Initialize Firebase
@@ -18,5 +19,6 @@ const app = !firebase.apps.length
 const auth = firebase.auth();
 const db = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
+const storage = firebase.storage();
 
-export { auth, provider, db };
+export { auth, provider, db, storage };

@@ -71,6 +71,7 @@ function Message({ message, setRepliedMessage }) {
   // Deciding which type of message to show
   const showMessage = () => {
     const sentMessage = uid == auth.currentUser.uid ? true : false;
+    const messageType = text.includes("https://") ? "file" : "text";
 
     // Text Message Styles
     let reactionStyle = "";
@@ -238,13 +239,19 @@ function Message({ message, setRepliedMessage }) {
         {/* Row */}
         <div className={rowStyle}>
           {/* Image */}
-          <div className="overflow-hidden h-10 w-10 rounded-full relative px">
+          <div className="overflow-hidden h-10 w-10 rounded-full relative">
             <Image src={photoURL} layout="fill" objectFit="cover" />
           </div>
 
           <div className={textContainerStyle}>
-            {/* Text */}
-            <p className={textStyle}>{text}</p>
+            {/* Text / File */}
+            {messageType === "text" ? (
+              <p className={textStyle}>{text}</p>
+            ) : (
+              <div className="mr-2 h-80 w-full rounded-3xl rounded-br-none overflow-hidden flex items-center justify-center relative">
+                <embed className=" h-full w-full object-fill" src={text} />
+              </div>
+            )}
             {showLikes()}
             {/* Likes */}
           </div>
