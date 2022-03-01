@@ -32,6 +32,19 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
   const filePreviewerContainer = useRef();
   const fileProgressIndicator = useRef();
 
+  // Effects
+  useEffect(async () => {
+    if (formValue === "") {
+      db.collection("users").doc(user.uid).update({
+        typing: false,
+      });
+    } else {
+      db.collection("users").doc(user.uid).update({
+        typing: true,
+      });
+    }
+  }, [formValue]);
+
   // Functions
   const sendMessage = async (e) => {
     e.preventDefault();
