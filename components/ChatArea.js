@@ -22,7 +22,11 @@ function ChatArea({ scroller, setRepliedMessage }) {
   return (
     <div className="flex flex-col-reverse flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-track-neutral-50 scrollbar-thumb-neutral-200 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-900">
       {usersSnapshot?.length > 0 ? (
-        <p className="opacity-50">Someone is typing...</p>
+        <p className="opacity-50">
+          {usersSnapshot.length == 1
+            ? `${usersSnapshot[0].username} is typing...`
+            : "Several people are typing...."}
+        </p>
       ) : null}
       <div ref={scroller}></div>
       {messagesSnapshot?.map((message) => (
