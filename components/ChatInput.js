@@ -24,6 +24,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
   const [formValue, setFormValue] = useState("");
   const [file, setFile] = useState(null);
   const [uploadedImgSrc, setUploadedImgSrc] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState(null);
 
   // Refs
   const formInput = useRef();
@@ -59,6 +60,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
           fileProgressIndicator.current.style.width = `${progress}%`;
+          fileProgressIndicator.current.style.height = `0.25rem`;
         },
         (error) => {
           console.log(error);
@@ -81,6 +83,8 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
             });
 
           exitFilePreviewer();
+          fileProgressIndicator.current.style.width = `0%`;
+          fileProgressIndicator.current.style.height = `0`;
         }
       );
     } else if (formValue != "") {
@@ -101,28 +105,52 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
   };
 
   const fileUploadHandler = (e) => {
-    if (e.target.files[0]) {
+    e.preventDefault();
+    const reader = new FileReader();
+
+    if (e.dataTransfer) {
+      setFile(e.dataTransfer.items[0].getAsFile());
+
+      reader.onload = (function () {
+        if (e.dataTransfer.items[0].getAsFile().type === "image/jpeg") {
+          return function (e) {
+            setUploadedImgSrc(e.target.result);
+          };
+        } else {
+          return function () {
+            setUploadedFileName(e.dataTransfer.items[0].getAsFile().name);
+          };
+        }
+      })();
+      reader.readAsDataURL(e.dataTransfer.items[0].getAsFile());
+    } else if (e.target.files[0]) {
       setFile(e.target.files[0]);
 
-      const reader = new FileReader();
       reader.onload = (function () {
-        return function (e) {
-          setUploadedImgSrc(e.target.result);
-        };
+        if (e.target.files[0].type === "image/jpeg") {
+          return function (e) {
+            setUploadedImgSrc(e.target.result);
+          };
+        } else {
+          return function () {
+            setUploadedFileName(e.target.files[0].name);
+          };
+        }
       })();
       reader.readAsDataURL(e.target.files[0]);
-
-      filePreviewerContainer.current.classList.add("h-52");
-      filePreviewerContainer.current.classList.add("p-4");
     }
+
+    filePreviewerContainer.current.classList.add("h-52");
+    filePreviewerContainer.current.classList.add("p-4");
   };
 
   const exitFilePreviewer = () => {
     filePreviewerContainer.current.classList.remove("h-52");
     filePreviewerContainer.current.classList.remove("p-4");
-    setFile(null);
 
-    uploadedImg.current.src = "";
+    setFile(null);
+    setUploadedFileName(null);
+    setUploadedImgSrc(null);
   };
 
   // Replied Message
@@ -150,7 +178,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" onDrop={fileUploadHandler}>
       {/* Replied Message Viewer */}
       <div
         ref={repliedMessageViewer}
@@ -170,17 +198,25 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
       {/* Uploaded File Previewer */}
       <div
         ref={filePreviewerContainer}
-        className="w-full overflow-hidden flex items-center justify-center bg-neutral-50 dark:bg-neutral-800 relative "
+        className="mx-4 mb-4 overflow-hidden flex items-center justify-start bg-neutral-50 dark:bg-neutral-800 relative rounded-lg"
       >
-        <img ref={uploadedImg} src={uploadedImgSrc} className="h-full" />
+        {uploadedImgSrc ? (
+          <img
+            ref={uploadedImg}
+            src={uploadedImgSrc}
+            className="h-full rounded-lg"
+          />
+        ) : uploadedFileName ? (
+          <p className="bg-red-500 px-4 py-2 m-0">{uploadedFileName}</p>
+        ) : null}
         <IconButton
           onClick={exitFilePreviewer}
           Icon={XIcon}
-          className="bg-[#007aff] dark:bg-[#ff2d55] text-white absolute right-4"
+          className="bg-[#007aff] dark:bg-[#ff2d55] text-white absolute right-4 bottom-4"
         />
         <span
           ref={fileProgressIndicator}
-          className="h-1 bg-[#007aff] dark:bg-[#ff2d55] absolute bottom-0 duration-200 ease-linear"
+          className="h-0 w-0 bg-[#007aff] dark:bg-[#ff2d55] absolute bottom-0 duration-200 ease-linear rounded-lg"
         ></span>
       </div>
 
