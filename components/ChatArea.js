@@ -2,11 +2,12 @@
 import Message from "./Message";
 
 // Firebase
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 function ChatArea({ scroller, setRepliedMessage }) {
   // Firebase
+
   const messagesCollection = db.collection("messages");
   const messagesDocuments = messagesCollection
     .orderBy("createdAt", "desc")
@@ -24,7 +25,9 @@ function ChatArea({ scroller, setRepliedMessage }) {
       {usersSnapshot?.length > 0 ? (
         <p className="opacity-50">
           {usersSnapshot.length == 1
-            ? `${usersSnapshot[0].username} is typing...`
+            ? usersSnapshot[0].email != auth.currentUser.email
+              ? `${usersSnapshot[0].username} is typing...`
+              : null
             : "Several people are typing...."}
         </p>
       ) : null}
