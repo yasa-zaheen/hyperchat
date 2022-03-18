@@ -1,5 +1,5 @@
 // React
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 // Next
 import Image from "next/image";
@@ -18,7 +18,7 @@ import {
   HeartIcon,
 } from "@heroicons/react/outline";
 
-function Message({ message, setRepliedMessage }) {
+function Message({ message, setRepliedMessage, messagesSnapshot }) {
   // Getting props
   const {
     text,
@@ -105,41 +105,60 @@ function Message({ message, setRepliedMessage }) {
         "px-32 py-16 bg-gradient-to-r from-[#caf0f8] to-[#03045e] bg-[url('https://media.giphy.com/media/dBxDfKQKl7lOCv4DY5/giphy.gif')]";
     }
 
-    const mainContainerStyle = sentMessage
-      ? "w-full flex flex-col items-end mb-8 relative cursor-pointer select-none"
-      : "w-full flex flex-col items-start mb-8 relative cursor-pointer select-none";
-    const usernameStyle = sentMessage
+    let mainContainerStyle = sentMessage
+      ? "group w-full flex flex-col items-end mb-8 relative cursor-pointer select-none"
+      : "group w-full flex flex-col items-start mb-8 relative cursor-pointer select-none";
+    let usernameStyle = sentMessage
       ? repliedMessage == ""
         ? "mr-12 text-xs font-medium mb-2 opacity-50 -z-20"
         : "mr-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20"
       : repliedMessage == ""
       ? "ml-12 text-xs font-medium mb-2 opacity-50 -z-20"
       : "ml-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20";
-    const rowStyle = sentMessage
+    let rowStyle = sentMessage
       ? "w-fit flex flex-row-reverse items-center"
       : "w-fit flex items-center";
-    const textContainerStyle = sentMessage
+    let textContainerStyle = sentMessage
       ? "flex flex-col items-end justify-end relative"
       : "flex flex-col items-start justify-end relative";
-    const textStyle = sentMessage
+    let textStyle = sentMessage
       ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`
       : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
-    const likeCounterStyle = sentMessage
+    let likeCounterStyle = sentMessage
       ? "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row-reverse items-center justify-center"
       : "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row items-center justify-center";
-    const heartIconStyle = sentMessage ? "h-3 w-3 ml-1" : "h-3 w-3 mr-1";
-    const actionCenterStyle = sentMessage
+    let heartIconStyle = sentMessage ? "h-3 w-3 ml-1" : "h-3 w-3 mr-1";
+    let actionCenterStyle = sentMessage
       ? "duration-200 ease-in-out scale-0 bg-neutral-50 dark:bg-neutral-800 right-2 absolute bottom-14 h-10 w-fit rounded-3xl shadow-xl"
       : "hidden";
-    const actionCenterBtnStyle = sentMessage
+    let actionCenterBtnStyle = sentMessage
       ? "mr-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white"
       : "ml-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white";
-    const timeSyle = sentMessage
-      ? "mr-14 text-xs mt-2 opacity-50 -z-20"
-      : "ml-14 text-xs mt-2 opacity-50 -z-20";
-    const repliedTextStyle = sentMessage
-      ? "mr-12 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
-      : "ml-12 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
+    let timeStyle = sentMessage
+      ? "mr-7 text-xs mt-2 opacity-50 -z-20"
+      : "ml-7 text-xs mt-2 opacity-50 -z-20";
+    let repliedTextStyle = sentMessage
+      ? "mr-8 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
+      : "ml-8 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
+    let imageContainerStyle = "overflow-hidden h-5 w-5 rounded-full relative";
+
+    if (messagesSnapshot) {
+      if (messagesSnapshot[messagesSnapshot.indexOf(message) - 1]?.uid == uid) {
+        timeStyle = "hidden";
+        textStyle = sentMessage
+          ? `h-fit flex-1 mr-7 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none rounded-tr-sm  ${reactionStyle} active:scale-95 duration-200 ease-in-out`
+          : `h-fit flex-1 ml-7 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none rounded-tl-sm ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
+        usernameStyle = "hidden";
+        mainContainerStyle = sentMessage
+          ? "w-full flex flex-col items-end mb-1 relative cursor-pointer select-none"
+          : "w-full flex flex-col items-start mb-1 relative cursor-pointer select-none";
+        imageContainerStyle = "hidden";
+      } else {
+        textStyle = sentMessage
+          ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-tr-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`
+          : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-tl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
+      }
+    }
 
     const deleteMessage = () => {
       db.collection("messages").doc(id).delete();
@@ -230,16 +249,13 @@ function Message({ message, setRepliedMessage }) {
     return (
       // Main container
       <div onDoubleClick={likeMessage} className={mainContainerStyle}>
-        {/* Username */}
-        <p className={usernameStyle}>{username}</p>
-
         {/* Replied Message */}
         {showRepliedMessage()}
 
         {/* Row */}
         <div className={rowStyle}>
           {/* Image */}
-          <div className="overflow-hidden h-10 w-10 rounded-full relative">
+          <div className={imageContainerStyle}>
             <Image src={photoURL} layout="fill" objectFit="cover" />
           </div>
 
@@ -257,7 +273,7 @@ function Message({ message, setRepliedMessage }) {
           </div>
 
           {/* Action center */}
-          <div className="relative">
+          <div className="relative group-hover:flex">
             {/* Action center */}
             <div ref={actionCenter} className={actionCenterStyle}>
               <IconButton
@@ -271,7 +287,9 @@ function Message({ message, setRepliedMessage }) {
           </div>
         </div>
         {/* Time */}
-        <p className={timeSyle}>{showMessageTime()}</p>
+        <p className={timeStyle}>
+          {showMessageTime()} by {username}
+        </p>
       </div>
     );
   };
