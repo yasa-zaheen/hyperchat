@@ -290,7 +290,7 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
               src={src}
               width="300"
               height="380"
-              frameborder="0"
+              frameBorder="0"
               allowtransparency="true"
               allow="encrypted-media"
             ></iframe>
@@ -310,7 +310,7 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
           </div>
         );
