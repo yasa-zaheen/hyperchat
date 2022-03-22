@@ -73,6 +73,10 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
     const sentMessage = uid == auth.currentUser.uid ? true : false;
     const messageType = text.includes("https://") ? "file" : "text";
 
+    // For spotify
+    if (messageType == "file") {
+    }
+
     // Text Message Styles
     let reactionStyle = "";
     if (reactions.length == 1) {
@@ -122,8 +126,8 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
       ? "flex flex-col items-end justify-end relative"
       : "flex flex-col items-start justify-end relative";
     let textStyle = sentMessage
-      ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`
-      : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
+      ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl ${reactionStyle} active:scale-95 duration-200 ease-in-out`
+      : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
     let likeCounterStyle = sentMessage
       ? "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row-reverse items-center justify-center"
       : "bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-2 py-1 text-xs absolute -bottom-2 flex flex-row items-center justify-center";
@@ -135,28 +139,55 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
       ? "mr-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white"
       : "ml-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white";
     let timeStyle = sentMessage
-      ? "mr-7 text-xs mt-2 opacity-50 -z-20"
-      : "ml-7 text-xs mt-2 opacity-50 -z-20";
+      ? "mr-8 text-xs mt-2 opacity-50 -z-20"
+      : "ml-8 text-xs mt-2 opacity-50 -z-20";
     let repliedTextStyle = sentMessage
       ? "mr-8 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
       : "ml-8 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
     let imageContainerStyle = "overflow-hidden h-5 w-5 rounded-full relative";
+    let embedContainerStyle = sentMessage
+      ? "mr-8 h-80 w-full rounded-3xl overflow-hidden flex items-center justify-center relative"
+      : "ml-8 h-80 w-full rounded-3xl overflow-hidden flex items-center justify-center relative";
 
     if (messagesSnapshot) {
-      if (messagesSnapshot[messagesSnapshot.indexOf(message) - 1]?.uid == uid) {
+      const userSentMessageBefore =
+        messagesSnapshot[messagesSnapshot.indexOf(message) + 1]?.uid == uid;
+      const userSentMessageAfter =
+        messagesSnapshot[messagesSnapshot.indexOf(message) - 1]?.uid == uid;
+
+      if (userSentMessageBefore && userSentMessageAfter) {
         timeStyle = "hidden";
         textStyle = sentMessage
-          ? `h-fit flex-1 mr-7 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none rounded-tr-sm  ${reactionStyle} active:scale-95 duration-200 ease-in-out`
-          : `h-fit flex-1 ml-7 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none rounded-tl-sm ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
+          ? `h-fit flex-1 mr-7 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none rounded-tr-none  ${reactionStyle} active:scale-95 duration-200 ease-in-out`
+          : `h-fit flex-1 ml-7 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none rounded-tl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
         usernameStyle = "hidden";
         mainContainerStyle = sentMessage
-          ? "w-full flex flex-col items-end mb-1 relative cursor-pointer select-none"
-          : "w-full flex flex-col items-start mb-1 relative cursor-pointer select-none";
+          ? "group w-full flex flex-col items-end mb-1 relative cursor-pointer select-none"
+          : "group w-full flex flex-col items-start mb-1 relative cursor-pointer select-none";
         imageContainerStyle = "hidden";
-      } else {
+        embedContainerStyle = sentMessage
+          ? "mr-7 rounded-3xl rounded-br-none rounded-tr-none overflow-hidden flex items-center justify-center relative"
+          : "ml-7 rounded-3xl rounded-3xl rounded-bl-none rounded-tl-none flex items-center justify-center relative";
+      } else if (userSentMessageAfter) {
+        timeStyle = "hidden";
+        textStyle = sentMessage
+          ? `h-fit flex-1 mr-7 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none  ${reactionStyle} active:scale-95 duration-200 ease-in-out`
+          : `h-fit flex-1 ml-7 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
+        usernameStyle = "hidden";
+        mainContainerStyle = sentMessage
+          ? "group w-full flex flex-col items-end mb-1 relative cursor-pointer select-none"
+          : "group w-full flex flex-col items-start mb-1 relative cursor-pointer select-none";
+        imageContainerStyle = "hidden";
+        embedContainerStyle = sentMessage
+          ? "mr-7 rounded-3xl rounded-br-none overflow-hidden flex items-center justify-center relative"
+          : "ml-7 rounded-3xl rounded-bl-none overflow-hidden flex items-center justify-center relative";
+      } else if (userSentMessageBefore) {
         textStyle = sentMessage
           ? `h-fit flex-1 mr-2 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-tr-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`
           : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-tl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
+        embedContainerStyle = sentMessage
+          ? "mr-2 rounded-3xl rounded-tr-none overflow-hidden flex items-center justify-center relative"
+          : "ml-2 rounded-3xl rounded-bl-none rounded-tl-none flex items-center justify-center relative";
       }
     }
 
@@ -245,6 +276,71 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
       }
     };
 
+    // Embed
+    const showEmbed = () => {
+      // Spotify
+      if (text.includes("open.spotify.com")) {
+        let src = `https://open.spotify.com/embed/track/${
+          text.split("?")[0].split("/")[4]
+        }`;
+        return (
+          <div className={embedContainerStyle}>
+            <iframe
+              className="h-full w-full object-fill"
+              src={src}
+              width="300"
+              height="380"
+              frameborder="0"
+              allowtransparency="true"
+              allow="encrypted-media"
+            ></iframe>
+          </div>
+        );
+      }
+      // Youtube
+      else if (text.includes("youtu.be")) {
+        let src = `https://www.youtube.com/embed/${text.split("/")[3]}`;
+
+        return (
+          <div className={embedContainerStyle}>
+            <iframe
+              width="560"
+              height="315"
+              src={src}
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        );
+      } else if (text.includes("youtube.com/watch?v")) {
+        let src = `https://www.youtube.com/embed/${
+          text.split(" ")[0].split("=")[1]
+        }`;
+
+        return (
+          <div className={embedContainerStyle}>
+            <iframe
+              width="560"
+              height="315"
+              src={src}
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        );
+      }
+
+      return (
+        <div className={embedContainerStyle}>
+          <iframe className="h-full w-full object-fill" src={text} />
+        </div>
+      );
+    };
+
     // Deciding which message to show
     return (
       // Main container
@@ -264,16 +360,14 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
             {messageType === "text" ? (
               <p className={textStyle}>{text}</p>
             ) : (
-              <div className="mr-2 h-80 w-full rounded-3xl rounded-br-none overflow-hidden flex items-center justify-center relative">
-                <embed className=" h-full w-full object-fill" src={text} />
-              </div>
+              showEmbed()
             )}
             {showLikes()}
             {/* Likes */}
           </div>
 
           {/* Action center */}
-          <div className="relative group-hover:flex">
+          <div className="relative opacity-0 group-hover:opacity-100">
             {/* Action center */}
             <div ref={actionCenter} className={actionCenterStyle}>
               <IconButton
