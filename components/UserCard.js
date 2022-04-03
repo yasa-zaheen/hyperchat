@@ -42,12 +42,12 @@ function UserCard({ user, messages }) {
   };
 
   return (
-    <div className="duration-200 ease-in-out flex items-center cursor-pointer hover:bg-neutral-50 hover:dark:bg-neutral-800 p-4 rounded-lg hover:scale-105">
+    <div className="duration-200 ease-in-out flex items-center cursor-pointer bg-[#2c2c2e] p-4 first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl">
       <div className="overflow-hidden h-12 w-12 rounded-full relative">
         <Image src={user.photoURL} layout="fill" objectFit="cover" />
       </div>
       <div className="ml-4 flex flex-col">
-        <p className="text-md mr-2 flex items-center">
+        <p className="text-sm mr-2 flex items-center">
           {user.username}
           {activeStatus(user)}
         </p>

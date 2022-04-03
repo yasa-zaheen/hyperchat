@@ -16,7 +16,7 @@ function Chat() {
     <div className="relative h-full sm:h-screen w-full flex overflow-hidden">
       <ActivityBar hidden={activityBarHidden} />
 
-      <div className="h-screen w-full relative flex flex-col">
+      <div className="h-screen w-full relative flex flex-col bg-[#1c1c1e] p-4">
         <Header
           activityBarHidden={activityBarHidden}
           setActivityBarHidden={setActivityBarHidden}

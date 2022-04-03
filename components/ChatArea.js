@@ -20,7 +20,7 @@ function ChatArea({ scroller, setRepliedMessage }) {
   const [usersSnapshot] = useCollectionData(usersDocuments);
 
   return (
-    <div className="flex flex-col-reverse flex-1 max-h-fit p-4 overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-track-neutral-50 scrollbar-thumb-neutral-200 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-900">
+    <div className="mt-4 rounded-xl flex flex-col-reverse flex-1 max-h-fit overflow-scroll overflow-x-hidden scrollbar-none">
       {usersSnapshot?.length > 0 ? (
         usersSnapshot.length == 1 ? (
           usersSnapshot[0].email != auth.currentUser.email ? (
@@ -36,7 +36,7 @@ function ChatArea({ scroller, setRepliedMessage }) {
             </div>
           ) : null
         ) : (
-          <div className="flex items-center animate-pulse">
+          <div className=" flex items-center animate-pulse">
             <p className="opacity-50 ml-2">Several people are typing...</p>
           </div>
         )

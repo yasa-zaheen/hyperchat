@@ -28,7 +28,7 @@ function Header({ activityBarHidden, setActivityBarHidden }) {
   // Others
   const { systemTheme, theme, setTheme } = useTheme();
   const buttonClass =
-    "absolute left-16 md:left-4 text-sm bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white";
+    "absolute left-16 md:left-4 text-sm bg-neutral-100 dark:bg-[#1c1c1e] text-black dark:text-white";
 
   // Functions
   const renderThemeChanger = () => {
@@ -56,7 +56,7 @@ function Header({ activityBarHidden, setActivityBarHidden }) {
   };
 
   return (
-    <div className="relative h-fit w-full bg-white dark:bg-black flex justify-center items-center p-4 border-b-2 border-neutral-50 dark:border-neutral-800 overflow-hidden">
+    <div className="relative h-fit w-full bg-white dark:bg-[#2c2c2e] flex justify-center items-center p-4 rounded-xl overflow-hidden">
       {/* Activity Bar Btn */}
       <IconButton
         Icon={UsersIcon}

@@ -195,10 +195,10 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
       {/* Replied Message Viewer */}
       <div
         ref={repliedMessageViewer}
-        className="p-0 h-0 duration-200 ease-in-out w-full flex justify-between bg-neutral-50 dark:bg-neutral-800 overflow-hidden"
+        className="p-0 h-0 duration-200 ease-in-out w-full flex justify-between bg-neutral-50 dark:bg-[#2c2c2e] rounded-lg overflow-hidden"
       >
         <div>
-          <p className="text-xs">replying to</p>
+          <p className="text-xs opacity-75">replying to</p>
           <p className="text-sm">{repliedMessage}</p>
         </div>
         <IconButton
@@ -211,7 +211,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
       {/* Uploaded File Previewer */}
       <div
         ref={filePreviewerContainer}
-        className="mx-4 mb-4 overflow-hidden flex items-center justify-start bg-neutral-50 dark:bg-neutral-800 relative rounded-lg"
+        className="mb-4 w-full overflow-hidden flex items-center justify-start bg-neutral-50 dark:bg-[#2c2c2e] relative rounded-lg"
       >
         {uploadedImgSrc ? (
           <img
@@ -235,7 +235,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
 
       <form
         onSubmit={sendMessage}
-        className="w-full flex items-center p-4 border-t-2 border-neutral-50 dark:border-neutral-800"
+        className="w-full flex items-center rounded-xl"
       >
         {/* File Upload Btn */}
         <input
@@ -261,7 +261,7 @@ function ChatInput({ scroller, repliedMessage, setRepliedMessage }) {
           }}
           maxLength="255"
           placeholder="Message"
-          className="flex-1 bg-neutral-50 px-4 py-2 outline-none rounded-lg dark:bg-neutral-800"
+          className="flex-1 bg-neutral-50 px-4 py-2 outline-none rounded-lg dark:bg-[#2c2c2e]"
         />
 
         {/* Send button */}

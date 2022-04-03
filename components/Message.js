@@ -60,7 +60,7 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
           ? `Sent ${timeDeltaInMinutes}m ago`
           : timeDeltaHours < 60
           ? `Sent ${timeDeltaHours}h ago`
-          : null;
+          : "Sent a long time ago";
 
       return message;
     } else {
@@ -120,7 +120,7 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
       ? "ml-12 text-xs font-medium mb-2 opacity-50 -z-20"
       : "ml-12 translate-y-2 text-xs font-medium mb-2 opacity-50 -z-20";
     let rowStyle = sentMessage
-      ? "w-fit flex flex-row-reverse items-center"
+      ? "w-fit flex flex-row-reverse items-end"
       : "w-fit flex items-center";
     let textContainerStyle = sentMessage
       ? "flex flex-col items-end justify-end relative"
@@ -139,8 +139,8 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
       ? "mr-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white"
       : "ml-2 bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white";
     let timeStyle = sentMessage
-      ? "mr-8 text-xs mt-2 opacity-50 -z-20"
-      : "ml-8 text-xs mt-2 opacity-50 -z-20";
+      ? "mr-8 text-xs mt-2 opacity-50"
+      : "ml-8 text-xs mt-2 opacity-50";
     let repliedTextStyle = sentMessage
       ? "mr-8 translate-y-2 h-fit text-sm flex-1 bg-[#5856d6] text-white px-4 py-2 rounded-3xl -z-50"
       : "ml-8 translate-y-2 h-fit text-sm flex-1 bg-neutral-600 text-white px-4 py-2 rounded-3xl -z-50";
@@ -160,20 +160,20 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
         textStyle = sentMessage
           ? `h-fit flex-1 mr-7 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none rounded-tr-none  ${reactionStyle} active:scale-95 duration-200 ease-in-out`
           : `h-fit flex-1 ml-7 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none rounded-tl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
-        usernameStyle = "hidden";
+        // usernameStyle = "hidden";
         mainContainerStyle = sentMessage
           ? "group w-full flex flex-col items-end mb-1 relative cursor-pointer select-none"
           : "group w-full flex flex-col items-start mb-1 relative cursor-pointer select-none";
         imageContainerStyle = "hidden";
         embedContainerStyle = sentMessage
           ? "mr-7 rounded-3xl rounded-br-none rounded-tr-none overflow-hidden flex items-center justify-center relative"
-          : "ml-7 rounded-3xl rounded-3xl rounded-bl-none rounded-tl-none flex items-center justify-center relative";
+          : "ml-7 rounded-3xl rounded-bl-none rounded-tl-none flex items-center justify-center relative";
       } else if (userSentMessageAfter) {
         timeStyle = "hidden";
         textStyle = sentMessage
           ? `h-fit flex-1 mr-7 bg-[#007aff] dark:bg-[#ff2d55] text-white px-4 py-2 rounded-3xl rounded-br-none  ${reactionStyle} active:scale-95 duration-200 ease-in-out`
           : `h-fit flex-1 ml-7 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-bl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
-        usernameStyle = "hidden";
+        // usernameStyle = "hidden";
         mainContainerStyle = sentMessage
           ? "group w-full flex flex-col items-end mb-1 relative cursor-pointer select-none"
           : "group w-full flex flex-col items-start mb-1 relative cursor-pointer select-none";
@@ -187,7 +187,7 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
           : `h-fit flex-1 ml-2 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white px-4 py-2 rounded-3xl rounded-tl-none ${reactionStyle} active:scale-95 duration-200 ease-in-out`;
         embedContainerStyle = sentMessage
           ? "mr-2 rounded-3xl rounded-tr-none overflow-hidden flex items-center justify-center relative"
-          : "ml-2 rounded-3xl rounded-bl-none rounded-tl-none flex items-center justify-center relative";
+          : "ml-2 rounded-3xl rounded-tl-none overflow-hidden flex items-center justify-center relative";
       }
     }
 
@@ -332,13 +332,19 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
             ></iframe>
           </div>
         );
+      } else if (text.includes("firebasestorage.googleapis.com")) {
+        return (
+          <div className={embedContainerStyle}>
+            <embed className="w-96 object-fill" src={text} />
+          </div>
+        );
+      } else {
+        return (
+          <div className={embedContainerStyle}>
+            <embed className="h-full w-full object-fill" src={text} />
+          </div>
+        );
       }
-
-      return (
-        <div className={embedContainerStyle}>
-          <iframe className="h-full w-full object-fill" src={text} />
-        </div>
-      );
     };
 
     // Deciding which message to show
@@ -367,7 +373,7 @@ function Message({ message, setRepliedMessage, messagesSnapshot }) {
           </div>
 
           {/* Action center */}
-          <div className="relative opacity-0 group-hover:opacity-100">
+          <div className="relative opacity-0 group-hover:opacity-100 self-center">
             {/* Action center */}
             <div ref={actionCenter} className={actionCenterStyle}>
               <IconButton
